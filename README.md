@@ -17,12 +17,12 @@
 ## What it does
 
 ```
-photo.jpg  ──►  [ shape DiT ]  ──►  [ PBR paint ]  ──►  avatar.glb
+photo.jpg  ──►  [ bg remove ]  ──►  [ shape DiT ]  ──►  [ PBR paint ]  ──►  avatar.glb
 ```
 
 Runs **Hunyuan3D 2.1** (Tencent) locally on an RTX 4090.  
-Two stages: shape generation (flow-matching DiT) → PBR texture painting → `.glb` export.  
-One command to set up, one to run.
+Three stages: **auto background removal** → shape generation (flow-matching DiT) → PBR texture painting → `.glb` export.  
+Any photo works — cluttered background, outdoor, studio. One command to set up, one to run.
 
 ---
 
@@ -90,7 +90,7 @@ Helpers:
                                  [--max-views 6] [--resolution 512]
 ```
 
-Fast (~2–3 min, ~10 GB VRAM). Front face is faithful; sides/back inferred.
+Fast (~2–3 min, ~10 GB VRAM). Background auto-removed. Front face is faithful; sides/back inferred.
 
 ### `multi` — 4 photos → fused `.glb`
 

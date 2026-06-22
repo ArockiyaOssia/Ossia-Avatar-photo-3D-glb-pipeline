@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!-- Zero-build avatar embed. Copy this file + your avatar.glb to any web host.
+     Uses Google's <model-viewer> web component (no bundler, no npm). -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My 3D Avatar</title>
+  <script type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <style>
+    body { margin: 0; background: #0b0f17; display: grid; place-items: center; height: 100vh; }
+    model-viewer { width: min(90vw, 560px); height: min(90vh, 640px); --poster-color: transparent; }
+  </style>
+</head>
+<body>
+  <!-- Drop your exported file next to this HTML as avatar.glb -->
+  <model-viewer
+    src="avatar.glb"
+    alt="3D avatar"
+    camera-controls
+    auto-rotate
+    auto-rotate-delay="0"
+    rotation-per-second="20deg"
+    shadow-intensity="1"
+    exposure="1.1"
+    environment-image="neutral"
+    camera-orbit="0deg 80deg 2.4m"
+    field-of-view="35deg">
+  </model-viewer>
+</body>
+</html>

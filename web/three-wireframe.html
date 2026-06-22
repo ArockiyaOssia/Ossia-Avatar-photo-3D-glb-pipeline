@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!-- Plain three.js: textured <-> wireframe toggle. No build step, ES module CDN. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Avatar — wireframe toggle</title>
+  <style>
+    body { margin: 0; background: #0b0f17; overflow: hidden; font-family: system-ui; }
+    #ui { position: fixed; top: 16px; left: 16px; z-index: 10; }
+    button { background: #1b2230; color: #cfe6ff; border: 1px solid #2c3a52;
+             padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="ui"><button id="toggle">Toggle wireframe</button></div>
+  <script type="importmap">
+  { "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+    import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    document.body.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b0f17);
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+    const camera = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 0.1, 100);
+    camera.position.set(0, 0.1, 2.6);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enablePan = false; controls.autoRotate = true; controls.autoRotateSpeed = 1.2;
+    controls.minPolarAngle = Math.PI / 3; controls.maxPolarAngle = Math.PI / 1.8;
+
+    let wireframe = false, meshes = [];
+    new GLTFLoader().load("avatar.glb", (gltf) => {
+      gltf.scene.traverse((o) => { if (o.isMesh) meshes.push(o); });
+      // center + frame the model
+      const box = new THREE.Box3().setFromObject(gltf.scene);
+      const c = box.getCenter(new THREE.Vector3());
+      gltf.scene.position.sub(c);
+      controls.target.set(0, 0, 0);
+      scene.add(gltf.scene);
+    });
+
+    document.getElementById("toggle").onclick = () => {
+      wireframe = !wireframe;
+      meshes.forEach((m) => {
+        m.material.wireframe = wireframe;
+        if (m.material.color) m.material.color.set(wireframe ? 0x9bd3ff : 0xffffff);
+      });
+    };
+
+    addEventListener("resize", () => {
+      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+    (function loop() { requestAnimationFrame(loop); controls.update(); renderer.render(scene, camera); })();
+  </script>
+</body>
+</html>

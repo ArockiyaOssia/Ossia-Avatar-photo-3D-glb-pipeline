@@ -1,6 +1,6 @@
 # Ossia Avatar
 
-Turn photos into 3D head avatars (`.glb`) — single image or multi-view fusion — with PBR texturing. Self-contained: bundles a patched Hunyuan3D engine; one command to set up, one to run.
+Turn photos into 3D head avatars (`.glb`) — single image or multi-view fusion — with PBR texturing, then **embed them in your website** (Next.js / three.js / model-viewer) to build a 3D portfolio of yourself. Self-contained: bundles a patched Hunyuan3D engine; one command to set up, one to run.
 
 ```
 photo.jpg  ──►  [ shape DiT ]  ──►  [ PBR paint ]  ──►  avatar.glb
@@ -65,6 +65,35 @@ No texture. `--render` also writes white-clay + wireframe PNGs to the workdir.
 **Higher quality (multi-view):** `--resolution 768 --max-views 9 --octree 512 --steps 75`
 (peaks ~23 GB VRAM on a 24 GB card — near the limit).
 
+## 🌐 Put yourself on your website
+
+The whole point: take the `.glb` and drop a **live, spinning 3D you** into your
+portfolio — textured head or a glowing **wireframe** version.
+
+**Live example:** [portfolio-nine-dusky-15.vercel.app](https://portfolio-nine-dusky-15.vercel.app/) — Next.js + React Three Fiber, hero powered by an avatar from this repo.
+
+```bash
+./avatar single photo.jpg -o public/avatar.glb        # textured head
+./avatar mesh   photo.jpg -o public/avatar_mesh.glb   # geometry-only (wireframe)
+```
+
+Then embed — pick your stack (full guide + files in [`web/`](web/README.md)):
+
+```jsx
+// Next.js / React Three Fiber  (web/react-three-fiber/Avatar.jsx)
+import Avatar from "@/components/Avatar";
+<Avatar src="/avatar.glb" />                 {/* textured, auto-rotates  */}
+<Avatar src="/avatar_mesh.glb" wireframe />  {/* hologram wireframe look */}
+```
+
+```html
+<!-- Zero-build (web/model-viewer.html) -->
+<model-viewer src="avatar.glb" camera-controls auto-rotate></model-viewer>
+```
+
+`web/` ships three ready-to-use embeds: **model-viewer** (no build), **plain three.js**
+(textured⇄wireframe toggle), and a **React Three Fiber** `<Avatar>` component.
+
 ## Requirements
 
 | | |
@@ -122,6 +151,7 @@ ossia-avatar/
 ├── scripts/            # pipeline entrypoints (image2glb, image2glb_mv, shape_only)
 │   └── _engine.py      # engine bootstrap + 2mv config auto-remap
 ├── engine/             # bundled, patched Hunyuan3D engine (hy3dshape + hy3dpaint)
+├── web/                # embed the .glb on your site: model-viewer / three.js / R3F
 ├── examples/           # sample usage + how to view .glb
 ├── SETUP.md  CONTRIBUTING.md  LICENSE  requirements.txt
 ```

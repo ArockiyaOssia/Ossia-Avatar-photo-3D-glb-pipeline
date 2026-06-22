@@ -53,6 +53,7 @@ outputs/
 !assets/*.jpg
 !assets/*.webp
 !assets/*.mp4
+!assets/*.gif
 !engine/assets/demo.png
 
 # Cache

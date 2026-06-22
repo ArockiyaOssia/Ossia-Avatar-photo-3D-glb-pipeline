@@ -35,11 +35,7 @@ Any photo works — cluttered background, outdoor, studio. One command to set up
 </tr>
 <tr>
 <td align="center"><img src="assets/duck.jpg" width="260" alt="Input photo"/></td>
-<td align="center">
-
-![3D avatar output](assets/demo_output.mp4)
-
-</td>
+<td align="center"><img src="assets/demo_output.gif" width="480" alt="Textured 3D avatar spinning"/></td>
 </tr>
 </table>
 

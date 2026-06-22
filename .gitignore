@@ -48,10 +48,11 @@ outputs/
 *.ckpt
 *.safetensors
 
-# Allow demo/doc images committed to the repo
+# Allow demo/doc assets committed to the repo
 !assets/*.png
 !assets/*.jpg
 !assets/*.webp
+!assets/*.mp4
 !engine/assets/demo.png
 
 # Cache

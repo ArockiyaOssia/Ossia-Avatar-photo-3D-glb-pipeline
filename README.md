@@ -31,13 +31,15 @@ Any photo works — cluttered background, outdoor, studio. One command to set up
 <table>
 <tr>
 <td align="center"><b>Input photo</b></td>
-<td align="center"><b>Textured .glb</b></td>
-<td align="center"><b>Wireframe .glb</b></td>
+<td align="center"><b>Output — textured 3D avatar (.glb)</b></td>
 </tr>
 <tr>
-<td align="center"><img src="assets/demo_input.png" width="220" alt="Input photo"/></td>
-<td align="center"><img src="assets/demo_output_textured.png" width="220" alt="Textured 3D avatar"/></td>
-<td align="center"><img src="assets/demo_output_wire.png" width="220" alt="Wireframe mesh"/></td>
+<td align="center"><img src="assets/duck.jpg" width="260" alt="Input photo"/></td>
+<td align="center">
+
+![3D avatar output](assets/demo_output.mp4)
+
+</td>
 </tr>
 </table>
 
